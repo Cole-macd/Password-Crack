@@ -170,7 +170,8 @@ int isMatch(char *attempted_string, char *next_hash) {
 	 *if (hashed_attempt == hashed_password) return 1;
 	 *return 0;
 	 */
-
+	//need to be comparing hashed string instead of attempted string 
+	//ie. hash(attempted_string)... 
 	if (strncmp(attempted_string, next_hash, strlen(next_hash)) == 0) {
 		printf("Found %s\n", attempted_string);
 		return 1;
