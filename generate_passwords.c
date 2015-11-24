@@ -4,21 +4,16 @@
 
 int main (int argc, char *argv[]) {
 
-    FILE *f = fopen("password.txt", "r");
-    FILE *f_encrpyted = fopen("encrypted_pw.txt", "w"); 
+    FILE *f = fopen("password.txt", "w");
 
     if (f == NULL) {
         printf("Error opening file!\n");
         return -1;
     }
-    if (f_encrypted == NULL) { 
-        printf("Error opening file!\n");
-        return -1;
-    }
 
     int i, j, length;
-    char* encrypted; 
-    /* for (i = 0; i < 50; i++) {
+    char* text; 
+    for (i = 0; i < 50; i++) {
 	length = 6 + (random() % 3); 
 	text = malloc(length * sizeof(char)); 
 	for (j = 0; j < length; j++) { 
@@ -27,7 +22,7 @@ int main (int argc, char *argv[]) {
 	}
 	fprintf(f, "%s\n", text); 
     }
- */ 
+
     fclose(f);
 
 }

@@ -9,6 +9,8 @@ crack_sequential: crack_sequential.c
 generate_hashes: generate_hashes.c
 	gcc generate_hashes.c -o generate_hashes
 
+generate_hashes_test: generate_hashes_test.c
+	gcc encrypt_decrypt.c generate_hashes_test.c -o crypto -lcrypto -lssl
 clean: 
 	rm -rf crack_mpi
 	rm -rf crack_sequential
