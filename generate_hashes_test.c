@@ -16,7 +16,7 @@ void test_aes_256_cbc(void){
   unsigned char *iv = (unsigned char *)"01234567890123456";
 
   /* Message to be encrypted */
-  unsigned char *plaintext = (unsigned char *)"The quick brown fox jumps over the lazy dog";
+  unsigned char *plaintext = (unsigned char *)"Testing this sentence";
 
   /* Buffer for ciphertext. Ensure the buffer is long enough for the
    * ciphertext which may be longer than the plaintext, dependant on the
@@ -32,7 +32,7 @@ void test_aes_256_cbc(void){
   ciphertext_len = encrypt_cipher(plaintext, strlen((char *)plaintext), key, iv, ciphertext, EVP_aes_256_cbc());
 
    /* Do something useful with the ciphertext here */
-  //printf("Ciphertext is:\n");
+  printf("Ciphertext is:\n");
   
   //BIO_dump_fp (stdout, (const char *)ciphertext, ciphertext_len);
 
@@ -44,8 +44,8 @@ void test_aes_256_cbc(void){
   decryptedtext[decryptedtext_len] = '\0';
 
   /* Show the decrypted text */
-  //printf("Decrypted text is:\n");
-  //printf("%s\n", decryptedtext);
+  printf("Decrypted text is:\n");
+  printf("%s\n", decryptedtext);
 
   if(strcmp(plaintext, decryptedtext) == 0){
     printf(" AES 256 CBC PASSED\n");
