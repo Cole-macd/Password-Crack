@@ -6,8 +6,14 @@ crack_mpi: crack_mpi.c
 crack_sequential: crack_sequential.c
 	gcc crack_sequential.c -o crack_sequential
 
+generate_passwords: generate_passwords.c
+	gcc generate_passwords.c -o generate_passwords 
+
 generate_hashes: generate_hashes.c
-	gcc generate_hashes.c -o generate_hashes
+	gcc encrypt_decrypt.c generate_hashes.c -o generate_hashes -lcrypto -lssl
+
+generate_hashes_test: generate_hashes_test.c
+	gcc encrypt_decrypt.c generate_hashes_test.c -o generate_hashes_test -lcrypto -lssl
 
 clean: 
 	rm -rf crack_mpi
