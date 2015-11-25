@@ -15,9 +15,8 @@ generate_hashes: generate_hashes.c
 generate_hashes_test: generate_hashes_test.c
 	gcc encrypt_decrypt.c generate_hashes_test.c -o generate_hashes_test -lcrypto -lssl
 
-generate_hashes_test: generate_hashes_test.c
-	gcc encrypt_decrypt.c generate_hashes_test.c -o crypto -lcrypto -lssl
 clean: 
 	rm -rf crack_pthread
 	rm -rf crack_sequential
 	rm -rf generate_hashes
+	rm -rf generate_hashes_test
