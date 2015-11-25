@@ -29,9 +29,10 @@ int main (int argc, char *argv[]) {
 void md5_to_text() {
     FILE *f_md5 = fopen("md5_pw.txt", "w");
     int i;
-    char* encrypted; 
+    char* encrypted;
+    char* encr;
     for (i = 0; i < NUM_OF_PASSWORDS; i++) {
-	char* encr = encrypt_md5(passwords[i]); 
+	encrypt_md5(passwords[i], encr, strlen(passwords[i])); 
 	printf("%s\n", encr); 
 	fprintf(f_md5, "%s\n", buffer); 
     }

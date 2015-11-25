@@ -1,17 +1,17 @@
 #include "encrypt_passwords.h"
 
-char* encrypt_md5(char *password) {
+void encrypt_md5(char *password, char *hash, int length) {
     //md5 produces a 16 byte hash value (one way)
     memset(md5_hash, 0, MD5_HASH_SIZE);
-    encrypt_digest(password, strlen(password), md5_hash, 0, EVP_md5());
+    encrypt_digest(password, length, md5_hash, 0, EVP_md5());
     memset(buffer, 0, sizeof(buffer));
     int j; 
     for(j = 0; j < MD5_HASH_SIZE; j++) {
 	sprintf(buffer+2*j, "%02x", md5_hash[j]);
     } 
-    char *encrypted = (char *) malloc(sizeof(char) * 256); 
-    strcpy(encrypted, buffer); 
-    return encrypted;
+    //char *encrypted = (char *) malloc(sizeof(char) * 256); 
+    strncpy(hash, buffer, strlen(buffer));
+    //return encrypted;
 }
 
 char* encrypt_sha1(char *password) {

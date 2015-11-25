@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "string.h"
-#include "encrypt_decrypt.h"
-#include "generate_hashes.h" 
+#include "encrypt_passwords.h"
 
-#define MIN_LENGTH 5
+#define MIN_LENGTH 6
 #define MAX_LENGTH 6
-#define NUM_VALID_CHARS 62
+#define NUM_VALID_CHARS 26//62
 #define FILENAME "Boobies.txt"
 
 void getFirstString(char *string, int length);
-int isMatch(char *attempted_string, char *next_hash);
+int isMatch(char *attempted_string, char *next_hash, int length);
 void getStringForValues(char *string, int *values, int length);
 void incrementValues(int *values, int current_length);
 void getFirstValues(int *values, int length);
@@ -23,9 +23,11 @@ int number_of_passwords, rank, num_processes;
 int current_password;
 
 char **found_passwords;
-char valid_chars[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char valid_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";//"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main(int argc, char *argv[]) {
+	clock_t start = clock(), diff;
+
 	number_of_passwords = getNumberOfPasswords(FILENAME);
 	int current_password_index;
 	int found_match;
@@ -62,15 +64,17 @@ int main(int argc, char *argv[]) {
 			for (cur = 0; cur < total_permutations; cur++) {
 				getStringForValues(attempted_string, current_values, current_length);
 				
-				found_match = isMatch(attempted_string, next_hash);
+				found_match = isMatch(attempted_string, next_hash, current_length);
 				if (found_match == 1) {
 					strncpy(found_passwords[current_password_index], attempted_string, current_length);
+					printf("found %s\n", next_hash);
 					break;
 				}
 
 				incrementValues(current_values, current_length);
 			}
 			free(attempted_string);
+			free(current_values);
 			if (found_match == 1) {
 				break;
 			}
@@ -78,6 +82,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	writeToFile();
+	diff = clock() - start;
+	int msec = diff * 1000 / CLOCKS_PER_SEC;
+	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
 }
 
 void writeToFile() {
@@ -166,17 +173,20 @@ void incrementValues(int *values, int current_length) {
 	if (i != current_length) values[i]++;
 }
 
-int isMatch(char *attempted_string, char *next_hash) {
-	/*char *hashed_attempt = hash(attempted_string);
-	 *
-	 *if (hashed_attempt == hashed_password) return 1;
-	 *return 0;
-	 */
-	//added encrypt_md5 so assuming comparing against md5 hashed passwords 
-	if (strncmp(encrypt_md5(attempted_string), next_hash, strlen(next_hash)) == 0) {
-		return 1;
+int isMatch(char *attempted_string, char *next_hash, int length) {
+	char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
+	encrypt_md5(attempted_string, attempted_hash, length);
+	int to_return = 0;
+
+	if (strncmp(attempted_string, "HCDAXH", 6) == 0) {
+		printf("%s length %d hash is %s\n", attempted_string, length, attempted_hash);
 	}
 
-	return 0;
+	if (strncmp(attempted_hash, next_hash, strlen(next_hash)) == 0) {
+		to_return = 1;
+	}
+
+	free(attempted_hash);
+	return to_return;
 }
 

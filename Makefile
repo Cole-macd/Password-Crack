@@ -1,7 +1,7 @@
 all: crack_pthread crack_sequential generate_hashes
 
 crack_pthread: crack_pthread.c
-	gcc crack_pthread.c -o crack_pthread -lpthread
+	gcc crack_pthread.c encrypt_decrypt.c encrypt_passwords.c -o crack_pthread -lpthread -lcrypto -lssl
 
 crack_sequential: crack_sequential.c
 	gcc crack_sequential.c encrypt_decrypt.c encrypt_passwords.c -o crack_sequential -lcrypto -lssl
