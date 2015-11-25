@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "string.h"
+#include "encrypt_decrypt.h"
+#include "generate_hashes.h" 
 
 #define MIN_LENGTH 5
 #define MAX_LENGTH 6
@@ -170,9 +172,8 @@ int isMatch(char *attempted_string, char *next_hash) {
 	 *if (hashed_attempt == hashed_password) return 1;
 	 *return 0;
 	 */
-	//need to be comparing hashed string instead of attempted string 
-	//ie. hash(attempted_string)... 
-	if (strncmp(attempted_string, next_hash, strlen(next_hash)) == 0) {
+	//added encrypt_md5 so assuming comparing against md5 hashed passwords 
+	if (strncmp(encrypt_md5(attempted_string), next_hash, strlen(next_hash)) == 0) {
 		return 1;
 	}
 

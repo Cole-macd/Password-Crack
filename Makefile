@@ -4,7 +4,7 @@ crack_pthread: crack_mpi.c
 	gcc crack_pthread.c -o crack_pthread -lpthread
 
 crack_sequential: crack_sequential.c
-	gcc crack_sequential.c -o crack_sequential
+	gcc crack_sequential.c encrypt_decrypt.c generate_hashes.c -o crack_sequential -lcrypto -lssl
 
 generate_passwords: generate_passwords.c
 	gcc generate_passwords.c -o generate_passwords 
