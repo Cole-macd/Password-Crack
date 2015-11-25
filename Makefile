@@ -1,7 +1,7 @@
-all: crack_mpi crack_sequential generate_hashes
+all: crack_pthread crack_sequential generate_hashes
 
-crack_mpi: crack_mpi.c
-	mpicc crack_mpi.c -o crack_mpi
+crack_pthread: crack_mpi.c
+	gcc crack_pthread.c -o crack_pthread -lpthread
 
 crack_sequential: crack_sequential.c
 	gcc crack_sequential.c -o crack_sequential
@@ -18,6 +18,6 @@ generate_hashes_test: generate_hashes_test.c
 generate_hashes_test: generate_hashes_test.c
 	gcc encrypt_decrypt.c generate_hashes_test.c -o crypto -lcrypto -lssl
 clean: 
-	rm -rf crack_mpi
+	rm -rf crack_pthread
 	rm -rf crack_sequential
 	rm -rf generate_hashes

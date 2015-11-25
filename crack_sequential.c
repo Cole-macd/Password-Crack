@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 				
 				found_match = isMatch(attempted_string, next_hash);
 				if (found_match == 1) {
-					strcpy(found_passwords[current_password_index], attempted_string);
+					strncpy(found_passwords[current_password_index], attempted_string, current_length);
 					break;
 				}
 
@@ -172,7 +172,6 @@ int isMatch(char *attempted_string, char *next_hash) {
 	 */
 
 	if (strncmp(attempted_string, next_hash, strlen(next_hash)) == 0) {
-		printf("Found %s\n", attempted_string);
 		return 1;
 	}
 
