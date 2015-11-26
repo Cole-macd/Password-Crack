@@ -15,6 +15,7 @@ int main (int argc, char *argv[]) {
     while (fgets(line, sizeof(line), f)) {
 	passwords[lineCount] = malloc(strlen(line));
 	strcpy(passwords[lineCount], line);
+	passwords[lineCount][strlen(passwords[lineCount])-1] = '\0';
 	lineCount++; 
     }
    

@@ -26,7 +26,8 @@ char **found_passwords;
 char valid_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";//"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main(int argc, char *argv[]) {
-	clock_t start = clock(), diff;
+	struct timeval tvBegin, tvEnd, tvDiff;
+	gettimeofday(&tvBegin, NULL);
 
 	number_of_passwords = getNumberOfPasswords(FILENAME);
 	int current_password_index;
@@ -82,9 +83,19 @@ int main(int argc, char *argv[]) {
 	}
 
 	writeToFile();
-	diff = clock() - start;
-	int msec = diff * 1000 / CLOCKS_PER_SEC;
-	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+	gettimeofday(&tvEnd, NULL);
+	timevalSubtract(&tvDiff, &tvEnd, &tvBegin);
+	printf("Time elapsed is %ld.%06ld\n", tvDiff.tv_sec, tvDiff.tv_usec);
+}
+
+/* Return 1 if the difference is negative, otherwise 0.  */
+int timevalSubtract(struct timeval *result, struct timeval *t2, struct timeval *t1)
+{
+    	long int diff = (t2->tv_usec + 1000000 * t2->tv_sec) - (t1->tv_usec + 1000000 * t1->tv_sec);
+    	result->tv_sec = diff / 1000000;
+    	result->tv_usec = diff % 1000000;
+	
+	return (diff<0);
 }
 
 void writeToFile() {
@@ -177,10 +188,6 @@ int isMatch(char *attempted_string, char *next_hash, int length) {
 	char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
 	encrypt_md5(attempted_string, attempted_hash, length);
 	int to_return = 0;
-
-	if (strncmp(attempted_string, "HCDAXH", 6) == 0) {
-		printf("%s length %d hash is %s\n", attempted_string, length, attempted_hash);
-	}
 
 	if (strncmp(attempted_hash, next_hash, strlen(next_hash)) == 0) {
 		to_return = 1;

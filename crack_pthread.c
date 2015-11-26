@@ -60,7 +60,7 @@ void *worker(void *arg) {
             		printf("length %d\nprocess %d trying to find hash %s\n", current_length, rank, next_hash);
 
             		unsigned long cur;
-            		for (cur = rank; cur < total_permutations; cur++) {
+            		for (cur = rank; cur < total_permutations; cur += num_processes) {
 				// TODO: Figure out a way to lock read without slowing down?
                 		// Get reader lock
                 		//pthread_rwlock_rdlock(&password_lock);
@@ -73,7 +73,7 @@ void *worker(void *arg) {
                 		}
 		
 		                getStringForValues(attempted_string, current_values, current_length);
-		
+
 		                found_match = isMatch(attempted_string, next_hash, current_length);
 		                if (found_match == 1) {
 		                    	// Get writer lock
@@ -99,7 +99,8 @@ void *worker(void *arg) {
 }
 
 int main(int argc, char *argv[]) {
-	clock_t start = clock(), diff;
+	struct timeval tvBegin, tvEnd, tvDiff;
+	gettimeofday(&tvBegin, NULL);
 
     	global_current_password = 0;
         number_of_passwords = getNumberOfPasswords(FILENAME);
@@ -136,9 +137,19 @@ int main(int argc, char *argv[]) {
     	pthread_rwlock_destroy(&password_lock);
     	writeToFile();
 
-	diff = clock() - start;
-	int msec = diff * 1000 / CLOCKS_PER_SEC;
-	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+	gettimeofday(&tvEnd, NULL);
+	timevalSubtract(&tvDiff, &tvEnd, &tvBegin);
+	printf("Time elapsed is %ld.%06ld\n", tvDiff.tv_sec, tvDiff.tv_usec);
+}
+
+/* Return 1 if the difference is negative, otherwise 0.  */
+int timevalSubtract(struct timeval *result, struct timeval *t2, struct timeval *t1)
+{
+    	long int diff = (t2->tv_usec + 1000000 * t2->tv_sec) - (t1->tv_usec + 1000000 * t1->tv_sec);
+    	result->tv_sec = diff / 1000000;
+    	result->tv_usec = diff % 1000000;
+	
+	return (diff<0);
 }
 
 void writeToFile() {
@@ -201,10 +212,11 @@ void getFirstValues(int *values, int length, int offset) {
         int i;
         for (i = 0; i < length; i++) {
                 if (offset >= NUM_VALID_CHARS) {
-                    values[i] = NUM_VALID_CHARS - 1;
-                    offset -= NUM_VALID_CHARS;
+                    values[i] = offset % NUM_VALID_CHARS;
+                    offset = offset / NUM_VALID_CHARS;
                 } else {
                     values[i] = offset;
+		    offset = 0;
                 }
         }
 }
@@ -243,14 +255,9 @@ void incrementValues(int *values, int current_length) {
 }
 
 int isMatch(char *attempted_string, char *next_hash, int length) {
-        char *attempted_hash = (char*)malloc(strlen(next_hash) * sizeof(char));
+        char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
 	encrypt_md5(attempted_string, attempted_hash, length);
 	int to_return = 0;
-
-	if (strncmp(attempted_string, "HCDAXH", 6) == 0) {
-		printf("%s length %d hash is %s\n", attempted_string, length, attempted_hash);
-	}
-	//printf("%s\n", attempted_hash);
 
 	if (strncmp(attempted_hash, next_hash, strlen(next_hash)) == 0) {
 		to_return = 1;
