@@ -7,7 +7,7 @@
 #define MIN_LENGTH 6
 #define MAX_LENGTH 6
 #define NUM_VALID_CHARS 26//62
-#define FILENAME "Boobies.txt"
+#define FILENAME "Hashes.txt"
 
 void getFirstString(char *string, int length);
 int isMatch(char *attempted_string, char *next_hash, int length);
@@ -187,6 +187,8 @@ void incrementValues(int *values, int current_length) {
 int isMatch(char *attempted_string, char *next_hash, int length) {
 	char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
 	encrypt_md5(attempted_string, attempted_hash, length);
+	//encryptSha1(attempted_string, attempted_hash, length);
+	//encryptAes256(attempetd_string, attempted_hash, length);
 	int to_return = 0;
 
 	if (strncmp(attempted_hash, next_hash, strlen(next_hash)) == 0) {
