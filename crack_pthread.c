@@ -63,7 +63,7 @@ void *worker(void *arg) {
 
 			/* Iterate through all permutations of strings with current_length */
             		unsigned long current_permutation;
-            		for (current_permutation = rank; cur < total_permutations; current_permutation += num_processes) {
+            		for (current_permutation = rank; current_permutation < total_permutations; current_permutation += num_processes) {
 				// TODO: Figure out a way to lock read without slowing down?
                 		// Get reader lock
                 		// pthread_rwlock_rdlock(&password_lock);
@@ -110,13 +110,13 @@ int main(int argc, char *argv[]) {
 	struct timeval tvBegin, tvEnd, tvDiff;
 	gettimeofday(&tvBegin, NULL);
 
-    	global_current_password = 0;
         number_of_passwords = getNumberOfPasswords(FILENAME);
     	printf("number of passwords is %d\n", number_of_passwords);
-   	allocatePasswordList(number_of_passwords);
+   	
+	allocatePasswordList(number_of_passwords);
+	global_current_password = 0;
 
     	num_processes = atoi(argv[1]);
-
         pthread_t *threads = malloc(num_processes * sizeof(pthread_t));
 
     	printf("Thread count is %d\n", num_processes);
@@ -246,7 +246,10 @@ void getStringForValues(char *string, int *values, int length) {
         strcpy(string, new_string);
 }
 
-/* Increments values array for process based on how many processes there are */
+/* 
+ * Increments values array to get next permutation for process 
+ * based on how many processes there are 
+ */
 void incrementValues(int *values, int current_length) {
         int i = 0;
         int offset = num_processes;
