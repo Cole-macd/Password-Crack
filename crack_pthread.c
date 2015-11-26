@@ -11,6 +11,9 @@
 #define FILENAME "md5_hashes.txt"
 // #define FILENAME "sha1_hashes.txt"
 // #define FILENAME "aes_256_hashes.txt"
+#define HASH_LENGTH 32
+// #define HASH_LENGTH 40
+// #define HASH_LENGTH 32
 
 void getFirstString(char *string, int length);
 int isMatch(char *attempted_string, char *next_hash, int length);
@@ -43,7 +46,7 @@ void *worker(void *arg) {
 
     	for (current_password_index = 0; current_password_index < number_of_passwords; current_password_index++) {
         	found_match = 0;
-        	next_hash = (char*)malloc(MAX_LENGTH * sizeof(char));
+        	next_hash = (char*)malloc(HASH_LENGTH * sizeof(char));
         	getNextHash(FILENAME, next_hash, current_password_index);
 
         	/* Brute Force Loop */
@@ -99,6 +102,7 @@ void *worker(void *arg) {
 	            	free(attempted_string);
 	
 	            	if (found_match == 1) {
+				free(next_hash);
 	                    	break;
 	            	}
 		}
