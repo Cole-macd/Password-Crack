@@ -2,7 +2,7 @@
 
 int main (int argc, char *argv[]) {
 
-    FILE *f = fopen("password.txt", "r");
+    FILE *f = fopen("passwords.txt", "r");
 
     if (f == NULL) {
         printf("Error opening file!\n");
@@ -22,23 +22,11 @@ int main (int argc, char *argv[]) {
 	passwords[lineCount][strlen(passwords[lineCount])-1] = '\0';
 	lineCount++; 
     }
-
-    int k,l;
-    for (k =0; k < NUM_OF_PASSWORDS; k++) {
-	for (l=0; l < strlen(passwords[k]); l++) {
-		printf("%c", passwords[k][l]);
-	}
-	printf("\n");
-    }
    
     md5ToText();
     sha1ToText();
     aes256ToText();
-    char* test = (char*) malloc(sizeof(char)*AES256_HASH_SIZE*2+1);
-    encryptAes256("WLRBB", test, 5);
-    printf("aes: %s\n", test);
 
- 
     fclose(f);
     return 1;
 }

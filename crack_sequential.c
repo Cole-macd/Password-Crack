@@ -4,10 +4,12 @@
 #include "string.h"
 #include "encrypt_passwords.h"
 
-#define MIN_LENGTH 6
-#define MAX_LENGTH 6
-#define NUM_VALID_CHARS 26//62
-#define FILENAME "Hashes.txt"
+#define MIN_LENGTH 4
+#define MAX_LENGTH 5
+#define NUM_VALID_CHARS 62
+#define FILENAME "md5_hashes.txt"
+// #define FILENAME "sha1_hashes.txt"
+// #define FILENAME "aes_256_hashes.txt"
 
 void getFirstString(char *string, int length);
 int isMatch(char *attempted_string, char *next_hash, int length);
@@ -23,7 +25,7 @@ int number_of_passwords, rank, num_processes;
 int current_password;
 
 char **found_passwords;
-char valid_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";//"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char valid_chars[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main(int argc, char *argv[]) {
 	struct timeval tvBegin, tvEnd, tvDiff;
@@ -104,7 +106,7 @@ int timevalSubtract(struct timeval *result, struct timeval *t2, struct timeval *
 void writeToFile() {
         FILE *output_file;
         int i;
-        output_file = fopen("passwords.txt","w");
+        output_file = fopen("cracked_passwords.txt","w");
         for (i = 0; i < number_of_passwords; i++) {
                 fprintf(output_file, "%s\n", found_passwords[i]);
         }

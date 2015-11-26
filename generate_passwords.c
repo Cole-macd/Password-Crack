@@ -4,7 +4,7 @@
 
 int main (int argc, char *argv[]) {
 
-    FILE *f = fopen("password.txt", "w");
+    FILE *f = fopen("passwords.txt", "w");
 
     if (f == NULL) {
         printf("Error opening file!\n");
