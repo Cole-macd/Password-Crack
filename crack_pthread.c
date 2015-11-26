@@ -63,7 +63,7 @@ void *worker(void *arg) {
 
 			/* Iterate through all permutations of strings with current_length */
             		unsigned long current_permutation;
-            		for (current_permutation = rank; cur < total_permutations; current_permutation += num_processes) {
+            		for (current_permutation = rank; current_permutation < total_permutations; current_permutation += num_processes) {
 				// TODO: Figure out a way to lock read without slowing down?
                 		// Get reader lock
                 		// pthread_rwlock_rdlock(&password_lock);

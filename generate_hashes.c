@@ -33,7 +33,7 @@ void md5_to_text() {
     char* encrypted;
     char* encr;
     for (i = 0; i < NUM_OF_PASSWORDS; i++) {
-	encrypt_md5(passwords[i], encr, strlen(passwords[i])); 
+	encryptMd5(passwords[i], encr, strlen(passwords[i])); 
 	printf("%s\n", encr); 
 	fprintf(f_md5, "%s\n", buffer); 
     }

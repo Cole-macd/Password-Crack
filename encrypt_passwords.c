@@ -1,6 +1,6 @@
 #include "encrypt_passwords.h"
 
-void encrypt_md5(char *password, char *hash, int length) {
+void encryptMd5(char *password, char *hash, int length) {
 	unsigned char md5_hash_two[MD5_HASH_SIZE];
 	char buffer_two[256];
 

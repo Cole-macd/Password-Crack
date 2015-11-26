@@ -186,7 +186,7 @@ void incrementValues(int *values, int current_length) {
 
 int isMatch(char *attempted_string, char *next_hash, int length) {
 	char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
-	encrypt_md5(attempted_string, attempted_hash, length);
+	encryptMd5(attempted_string, attempted_hash, length);
 	//encryptSha1(attempted_string, attempted_hash, length);
 	//encryptAes256(attempetd_string, attempted_hash, length);
 	int to_return = 0;
