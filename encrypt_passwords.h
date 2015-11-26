@@ -7,8 +7,8 @@
 #include "encrypt_decrypt.h" 
 #include "generate_hashes.h" 
 
-void encrypt_md5(char *password, char *hash, int length);
-char* encrypt_sha1(char *password);
-char* encrypt_aes_256(char *password);
+void encryptMd5(char *password, char *hash, int length);
+void encryptSha1(char *password, char *hash, int length);
+void encryptAes256(char *password, char *hash, int length);
 
 #endif

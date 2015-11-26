@@ -1,52 +1,52 @@
 #include "encrypt_passwords.h"
 
-void encrypt_md5(char *password, char *hash, int length) {
-	unsigned char md5_hash_two[MD5_HASH_SIZE];
-	char buffer_two[256];
+void encryptMd5(char *password, char *hash, int length) {
+    unsigned char md5_hash[MD5_HASH_SIZE];
+    char md5_buffer[256];
 
     //md5 produces a 16 byte hash value (one way)
-    memset(md5_hash_two, 0, MD5_HASH_SIZE);
-    encrypt_digest(password, length, md5_hash_two, 0, EVP_md5());
-    memset(buffer_two, 0, sizeof(buffer));
+    memset(md5_hash, 0, MD5_HASH_SIZE);
+    encrypt_digest(password, length, md5_hash, 0, EVP_md5());
+    memset(md5_buffer, 0, sizeof(md5_buffer));
     int j; 
     for(j = 0; j < MD5_HASH_SIZE; j++) {
-	sprintf(buffer_two+2*j, "%02x", md5_hash_two[j]);
+	sprintf(md5_buffer+2*j, "%02x", md5_hash[j]);
     } 
-    //char *encrypted = (char *) malloc(sizeof(char) * 256);
-    strncpy(hash, buffer_two, strlen(buffer_two));
-    //return encrypted;
+    strncpy(hash, md5_buffer, strlen(md5_buffer));
 }
 
-char* encrypt_sha1(char *password) {
+void encryptSha1(char *password, char *hash, int length) {
+    unsigned char sha1_hash[SHA1_HASH_SIZE];
+    char sha1_buffer[256];
+
     // SHA1 gives a 20 byte hash
     memset(sha1_hash, 0, SHA1_HASH_SIZE);
-    encrypt_digest(password, strlen(password), sha1_hash, 0, EVP_sha1());
-    memset(buffer, 0, sizeof(buffer));
+    encrypt_digest(password, length, sha1_hash, 0, EVP_sha1());
+    memset(sha1_buffer, 0, sizeof(sha1_buffer));
+
     int j; 
     for(j = 0; j < SHA1_HASH_SIZE; j++){
-	    sprintf(buffer+2*j, "%02x", sha1_hash[j]);
+	    sprintf(sha1_buffer+2*j, "%02x", sha1_hash[j]);
     }
-    char *encrypted = (char *) malloc(sizeof(char) * 256); 
-    strcpy(encrypted, buffer); 
-    return encrypted;
+
+    strcpy(hash, sha1_buffer);
 }
 
-char* encrypt_aes_256(char *password) {
+void encryptAes256(char *password, char *hash, int length) {
+    char aes256_buffer[256];
+
     unsigned char *key = (unsigned char *)"01234567890123456789012345678901";	/* 256 bit key */
     unsigned char *iv = (unsigned char *)"01234567890123456";			/* A 128 bit IV  = Initialization vector*/
     unsigned char ciphertext[128];						/* Buffer for ciphertext, make sure buffer is long enough for ciphertext*/
     unsigned char decryptedtext[128];						/* Buffer for the decrypted text */
 
     int decryptedtext_len, ciphertext_len;
-   
-    ciphertext_len = encrypt_cipher(password, strlen((char *)password), key, iv, ciphertext, EVP_aes_256_cbc());	/* Encrypt the plaintext */
-    ciphertext[ciphertext_len] = '\0';
-    memset(buffer, 0, sizeof(buffer));
+  
+    ciphertext_len = encrypt_cipher(password, length, key, iv, ciphertext, EVP_aes_256_cbc());	/* Encrypt the plaintext */
+    memset(aes256_buffer, 0, sizeof(aes256_buffer));
     int j; 
     for(j = 0; j < ciphertext_len; j++){
-	    sprintf(buffer+2*j, "%02x", ciphertext[j]);
+	    sprintf(aes256_buffer+2*j, "%02x", ciphertext[j]);
     }
-    char *encrypted = (char *) malloc(sizeof(char) * 128); 
-    strcpy(encrypted, buffer); 
-    return encrypted;
+     strcpy(hash, aes256_buffer);
 }

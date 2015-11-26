@@ -1,4 +1,4 @@
-all: crack_pthread crack_sequential generate_hashes
+all: crack_pthread crack_sequential generate_hashes generate_hashes_test generate_passwords
 
 crack_pthread: crack_pthread.c
 	gcc crack_pthread.c encrypt_decrypt.c encrypt_passwords.c -o crack_pthread -lpthread -lcrypto -lssl
@@ -18,5 +18,6 @@ generate_hashes_test: generate_hashes_test.c
 clean: 
 	rm -rf crack_pthread
 	rm -rf crack_sequential
+	rm -rf generate_passwords
 	rm -rf generate_hashes
 	rm -rf generate_hashes_test

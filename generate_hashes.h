@@ -9,15 +9,17 @@
 
 #define SHA1_HASH_SIZE 20
 #define MD5_HASH_SIZE 16
-#define NUM_OF_PASSWORDS 50
+#define AES256_HASH_SIZE 16
+#define NUM_OF_PASSWORDS 10
+#define MAX_PW_LENGTH 6
 
-char *passwords[NUM_OF_PASSWORDS];
-unsigned char md5_hash[MD5_HASH_SIZE];
-unsigned char sha1_hash[SHA1_HASH_SIZE]; 
-char buffer[256];
+char **passwords;
+//unsigned char md5_hash[MD5_HASH_SIZE];
+//unsigned char sha1_hash[SHA1_HASH_SIZE]; 
+//char buffer[256];
 
-void md5_to_text();
-void sha1_to_text();
-void aes_256_to_text();
+void md5ToText();
+void sha1ToText();
+void aes256ToText();
 
 #endif
