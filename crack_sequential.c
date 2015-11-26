@@ -45,14 +45,14 @@ int main(int argc, char *argv[]) {
 		next_hash = (char*)malloc(MAX_LENGTH * sizeof(char));
 		getNextHash(FILENAME, next_hash, current_password_index);
 
-		// Brute Force Loop
+		/* Brute Force Loop */
 		for (current_length = MIN_LENGTH; current_length <= MAX_LENGTH; current_length++) {
 			attempted_string = malloc(current_length * sizeof(char));
 			current_values = malloc(current_length * sizeof(int));
 			getFirstValues(current_values, current_length);
 	
+			/* Calculate number of total permutations */
 			unsigned long total_permutations = 1;
-	
 			int i, j;
 			for (i = 1; i < current_length + 1; i++) {
 				total_permutations = total_permutations * NUM_VALID_CHARS;
@@ -61,12 +61,14 @@ int main(int argc, char *argv[]) {
 			printf("total permutations are %lu for length %d\n", total_permutations, current_length);
 			printf("trying to find hash %s\n", next_hash);
 
-			unsigned long cur;
-			for (cur = 0; cur < total_permutations; cur++) {
+			/* Iterate through all permutations of strings with current_length */
+			unsigned long current_permutation;
+			for (current_permutation = 0; current_permutation < total_permutations; current_permutation++) {
 				getStringForValues(attempted_string, current_values, current_length);
 				
 				found_match = isMatch(attempted_string, next_hash, current_length);
 				if (found_match == 1) {
+					/* Found the current hash, move to next */
 					strncpy(found_passwords[current_password_index], attempted_string, current_length);
 					printf("found %s\n", next_hash);
 					break;
@@ -98,6 +100,7 @@ int timevalSubtract(struct timeval *result, struct timeval *t2, struct timeval *
 	return (diff<0);
 }
 
+/* Write the found_passwords array to a file */
 void writeToFile() {
         FILE *output_file;
         int i;
@@ -109,6 +112,7 @@ void writeToFile() {
         fclose(output_file);
 }
 
+/* Allocates memory for the found_passwords array */
 void allocatePasswordList(int length) {
 	found_passwords = malloc(length * sizeof(char*));
 	int i;
@@ -117,6 +121,7 @@ void allocatePasswordList(int length) {
 	}
 }
 
+/* Gets the number of passwords from a text file */
 int getNumberOfPasswords(char *filename) {
 	FILE *file;
 	file = fopen(filename, "r");
@@ -133,6 +138,7 @@ int getNumberOfPasswords(char *filename) {
 	return rows;
 }
 
+/* Gets the next hash to crack from a text file */
 void getNextHash(char *filename, char * next_hash, int index) {
 	FILE *file;
 	file = fopen(filename, "r");
@@ -151,6 +157,7 @@ void getNextHash(char *filename, char * next_hash, int index) {
 	}
 } 
 
+/* Initializes first set of values for a given length */
 void getFirstValues(int *values, int length) {
 	char first_values[length];
 	
@@ -160,6 +167,7 @@ void getFirstValues(int *values, int length) {
 	}
 }
 
+/* Gets a string based on values array */
 void getStringForValues(char *string, int *values, int length) {
 	char new_string[length];
 	int i;
@@ -171,6 +179,7 @@ void getStringForValues(char *string, int *values, int length) {
 	strcpy(string, new_string);
 }
 
+/* Increments values array for next permutation */
 void incrementValues(int *values, int current_length) {
 	int i;
 	for (i = 0; i < current_length; i++) {
@@ -184,6 +193,10 @@ void incrementValues(int *values, int current_length) {
 	if (i != current_length) values[i]++;
 }
 
+/* 
+ * Hashes an attempted_string and checks it against next hash.
+ * Returns 1 if there is a match
+ */
 int isMatch(char *attempted_string, char *next_hash, int length) {
 	char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
 	encryptMd5(attempted_string, attempted_hash, length);
