@@ -48,5 +48,6 @@ void encryptAes256(char *password, char *hash, int length) {
     for(j = 0; j < ciphertext_len; j++){
 	    sprintf(aes256_buffer+2*j, "%02x", ciphertext[j]);
     }
-     strcpy(hash, aes256_buffer);
+
+    strcpy(hash, aes256_buffer);
 }

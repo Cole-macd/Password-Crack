@@ -3,4 +3,5 @@ crack_sequential
 crack_pthread
 generate_hashes
 generate_passwords
+generate_hashes_test
 *.txt
