@@ -23,6 +23,7 @@ void getNextHash(char *filename, char *next_hash, int current_password_index);
 int getNumberOfPasswords(char *filename);
 void allocatePasswordList(int length);
 void writeToFile();
+void freeFoundPasswords(int length);
 
 int number_of_passwords, rank, num_processes;
 int current_password;
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
 
 	for (current_password_index = 0; current_password_index < number_of_passwords; current_password_index++) {
 		found_match = 0;
-		next_hash = (char*)malloc(HASH_LENGTH * sizeof(char));
+		next_hash = (char*)malloc((HASH_LENGTH + 1) * sizeof(char));
 		getNextHash(FILENAME, next_hash, current_password_index);
 
 		/* Brute Force Loop */
@@ -74,6 +75,7 @@ int main(int argc, char *argv[]) {
 				found_match = isMatch(attempted_string, next_hash, current_length);
 				if (found_match == 1) {
 					/* Found the current hash, move to next */
+					printf("current password index %d\n", current_password_index);
 					strncpy(found_passwords[current_password_index], attempted_string, current_length);
 					printf("found %s\n", next_hash);
 					break;
@@ -91,9 +93,20 @@ int main(int argc, char *argv[]) {
 	}
 
 	writeToFile();
+	freeFoundPasswords(number_of_passwords);
+	printf("getting time of day\n");
 	gettimeofday(&tvEnd, NULL);
+	printf("subtracting times\n");
 	timevalSubtract(&tvDiff, &tvEnd, &tvBegin);
 	printf("Time elapsed is %ld.%06ld\n", tvDiff.tv_sec, tvDiff.tv_usec);
+}
+
+void freeFoundPasswords(int length) {
+	int i;
+	for (i = 0; i < length; i++) {
+		free(found_passwords[i]);
+	}
+	free(found_passwords);
 }
 
 /* Return 1 if the difference is negative, otherwise 0.  */
@@ -108,14 +121,18 @@ int timevalSubtract(struct timeval *result, struct timeval *t2, struct timeval *
 
 /* Write the found_passwords array to a file */
 void writeToFile() {
-        FILE *output_file;
+        FILE *output_file = NULL;
         int i;
         output_file = fopen("cracked_passwords.txt","w");
         for (i = 0; i < number_of_passwords; i++) {
                 fprintf(output_file, "%s\n", found_passwords[i]);
         }
-
-        fclose(output_file);
+	if (output_file != NULL) {
+		printf("output file %d\n", output_file);
+        	fclose(output_file);
+		output_file = NULL;
+	}
+	printf("closing file\n");
 }
 
 /* Allocates memory for the found_passwords array */
@@ -123,7 +140,7 @@ void allocatePasswordList(int length) {
 	found_passwords = malloc(length * sizeof(char*));
 	int i;
 	for (i = 0; i < length; i++) {
-		found_passwords[i] = (char*)malloc(MAX_LENGTH * sizeof(char));
+		found_passwords[i] = (char*)malloc((MAX_LENGTH + 1) * sizeof(char));
 	}
 }
 
@@ -204,7 +221,7 @@ void incrementValues(int *values, int current_length) {
  * Returns 1 if there is a match
  */
 int isMatch(char *attempted_string, char *next_hash, int length) {
-	char *attempted_hash = malloc(HASH_LENGTH + 1 * sizeof(char));
+	char *attempted_hash = malloc((HASH_LENGTH + 1) * sizeof(char));
 	//encryptMd5(attempted_string, attempted_hash, length);
 	encryptSha1(attempted_string, attempted_hash, length);
 	//encryptAes256(attempted_string, attempted_hash, length);

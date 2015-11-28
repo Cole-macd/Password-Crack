@@ -7,3 +7,4 @@ generate_hashes_test
 sha1_hashes.txt
 aes256_hashes.txt
 md5_hashes.txt
+cracked_passwords.txt
