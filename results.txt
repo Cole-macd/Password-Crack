@@ -1,0 +1,187 @@
+PARALLEL
+number of passwords is 10
+Thread count is 4
+length 4
+process 0 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 4
+process 3 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 4
+process 2 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 4
+process 1 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 5
+process 3 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 5
+process 1 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 5
+process 0 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+length 5
+process 2 trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+process 1 found 168fbffa0ed90890a95f93f3cea35a9b
+length 4
+process 0 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 4
+process 2 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 4
+process 1 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 4
+process 3 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 5
+process 3 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 5
+process 1 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 5
+process 0 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+length 5
+process 2 trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+process 3 found 28e4a14c8f808bb41f109f1a8af8e6b5
+length 4
+process 0 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 4
+process 1 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 4
+process 2 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 4
+process 3 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 5
+process 2 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 5
+process 3 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 5
+process 0 trying to find hash 0e9939af35e4867e85338012d5615be0
+length 5
+process 1 trying to find hash 0e9939af35e4867e85338012d5615be0
+process 0 found 0e9939af35e4867e85338012d5615be0
+length 4
+process 3 trying to find hash 0ef337d1751c9b7e249aec4e74fc7a29
+length 4
+process 2 trying to find hash 0ef337d1751c9b7e249aec4e74fc7a29
+length 4
+process 0 trying to find hash 0ef337d1751c9b7e249aec4e74fc7a29
+length 4
+process 1 trying to find hash 0ef337d1751c9b7e249aec4e74fc7a29
+process 3 found 0ef337d1751c9b7e249aec4e74fc7a29
+length 4
+process 0 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 4
+process 1 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 4
+process 2 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 4
+process 3 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 5
+process 1 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 5
+process 3 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 5
+process 0 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+length 5
+process 2 trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+process 2 found 7dc1104dcdb60c2342d33b3fa09d0b73
+length 4
+process 2 trying to find hash ac73d5cd08b6151f99332ca1abbf91f2
+length 4
+process 3 trying to find hash ac73d5cd08b6151f99332ca1abbf91f2
+length 4
+process 0 trying to find hash ac73d5cd08b6151f99332ca1abbf91f2
+length 4
+process 1 trying to find hash ac73d5cd08b6151f99332ca1abbf91f2
+process 1 found ac73d5cd08b6151f99332ca1abbf91f2
+length 4
+process 0 trying to find hash 2c0d84f324e6f6ee1dbd137467cf1bc9
+length 4
+process 3 trying to find hash 2c0d84f324e6f6ee1dbd137467cf1bc9
+length 4
+process 2 trying to find hash 2c0d84f324e6f6ee1dbd137467cf1bc9
+length 4
+process 1 trying to find hash 2c0d84f324e6f6ee1dbd137467cf1bc9
+process 2 found 2c0d84f324e6f6ee1dbd137467cf1bc9
+length 4
+process 0 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 4
+process 2 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 4
+process 1 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 4
+process 3 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 5
+process 1 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 5
+process 3 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 5
+process 0 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+length 5
+process 2 trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+process 1 found 4d2fed80e878292a1cc433bdf3d30798
+length 4
+process 0 trying to find hash 0d6ea2ef575a4463b008a49cecb2644e
+length 4
+process 3 trying to find hash 0d6ea2ef575a4463b008a49cecb2644e
+length 4
+process 2 trying to find hash 0d6ea2ef575a4463b008a49cecb2644e
+length 4
+process 1 trying to find hash 0d6ea2ef575a4463b008a49cecb2644e
+process 2 found 0d6ea2ef575a4463b008a49cecb2644e
+length 4
+process 3 trying to find hash eb8f5aa3e5cc1941afce98b243d8bff5
+length 4
+process 0 trying to find hash eb8f5aa3e5cc1941afce98b243d8bff5
+length 4
+process 2 trying to find hash eb8f5aa3e5cc1941afce98b243d8bff5
+length 4
+process 1 trying to find hash eb8f5aa3e5cc1941afce98b243d8bff5
+process 0 found eb8f5aa3e5cc1941afce98b243d8bff5
+writing 736B2 to file
+writing roK6i to file
+writing Qc79O to file
+writing r62L to file
+writing e8rB1 to file
+writing dg1P to file
+writing OeLm to file
+writing PfkO8 to file
+writing oHw2 to file
+writing w26B to file
+Time elapsed is 433.095686
+
+SEQUENTIAL
+total permutations are 14776336 for length 4
+trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+total permutations are 916132832 for length 5
+trying to find hash 168fbffa0ed90890a95f93f3cea35a9b
+found 168fbffa0ed90890a95f93f3cea35a9b
+total permutations are 14776336 for length 4
+trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+total permutations are 916132832 for length 5
+trying to find hash 28e4a14c8f808bb41f109f1a8af8e6b5
+found 28e4a14c8f808bb41f109f1a8af8e6b5
+total permutations are 14776336 for length 4
+trying to find hash 0e9939af35e4867e85338012d5615be0
+total permutations are 916132832 for length 5
+trying to find hash 0e9939af35e4867e85338012d5615be0
+found 0e9939af35e4867e85338012d5615be0
+total permutations are 14776336 for length 4
+trying to find hash 0ef337d1751c9b7e249aec4e74fc7a29
+found 0ef337d1751c9b7e249aec4e74fc7a29
+total permutations are 14776336 for length 4
+trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+total permutations are 916132832 for length 5
+trying to find hash 7dc1104dcdb60c2342d33b3fa09d0b73
+found 7dc1104dcdb60c2342d33b3fa09d0b73
+total permutations are 14776336 for length 4
+trying to find hash ac73d5cd08b6151f99332ca1abbf91f2
+found ac73d5cd08b6151f99332ca1abbf91f2
+total permutations are 14776336 for length 4
+trying to find hash 2c0d84f324e6f6ee1dbd137467cf1bc9
+found 2c0d84f324e6f6ee1dbd137467cf1bc9
+total permutations are 14776336 for length 4
+trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+total permutations are 916132832 for length 5
+trying to find hash 4d2fed80e878292a1cc433bdf3d30798
+found 4d2fed80e878292a1cc433bdf3d30798
+total permutations are 14776336 for length 4
+trying to find hash 0d6ea2ef575a4463b008a49cecb2644e
+found 0d6ea2ef575a4463b008a49cecb2644e
+total permutations are 14776336 for length 4
+trying to find hash eb8f5aa3e5cc1941afce98b243d8bff5
+found eb8f5aa3e5cc1941afce98b243d8bff5
+Time elapsed is 1591.359653

@@ -9,11 +9,11 @@
 #define MAX_LENGTH 5
 #define NUM_VALID_CHARS 62
 //#define FILENAME "md5_hashes.txt"
-//#define FILENAME "sha1_hashes.txt"
-#define FILENAME "aes256_hashes.txt"
+#define FILENAME "sha1_hashes.txt"
+//#define FILENAME "aes256_hashes.txt"
 //#define HASH_LENGTH 32
-//#define HASH_LENGTH 40
-#define HASH_LENGTH 32
+#define HASH_LENGTH 40
+//#define HASH_LENGTH 32
 
 void getFirstString(char *string, int length);
 int isMatch(char *attempted_string, char *next_hash, int length);
@@ -46,7 +46,7 @@ void *worker(void *arg) {
 
     	for (current_password_index = 0; current_password_index < number_of_passwords; current_password_index++) {
         	found_match = 0;
-        	next_hash = (char*)malloc(HASH_LENGTH * sizeof(char));
+        	next_hash = (char*)malloc((HASH_LENGTH+1) * sizeof(char));
         	getNextHash(FILENAME, next_hash, current_password_index);
 
         	/* Brute Force Loop */
@@ -281,10 +281,10 @@ void incrementValues(int *values, int current_length) {
  * Returns 1 if there is a match
  */
 int isMatch(char *attempted_string, char *next_hash, int length) {
-        char *attempted_hash = malloc(strlen(next_hash) * sizeof(char));
+        char *attempted_hash = malloc((HASH_LENGTH+1) * sizeof(char));
 	//encryptMd5(attempted_string, attempted_hash, length);
-	//encryptSha1(attempted_string, attempted_hash, length);
-	encryptAes256(attempted_string, attempted_hash, length);
+	encryptSha1(attempted_string, attempted_hash, length);
+	//encryptAes256(attempted_string, attempted_hash, length);
 	int to_return = 0;
 
 	if (strncmp(attempted_hash, next_hash, strlen(next_hash)) == 0) {
