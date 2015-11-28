@@ -4,4 +4,6 @@ crack_pthread
 generate_hashes
 generate_passwords
 generate_hashes_test
-*.txt
+sha1_hashes.txt
+aes256_hashes.txt
+md5_hashes.txt
