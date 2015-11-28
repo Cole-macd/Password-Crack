@@ -13,7 +13,7 @@ int main (int argc, char *argv[]) {
 
     int i, j, length;
     char* text; 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 30; i++) {
 	length = 4 + (random() % 2); 
 	text = malloc(length * sizeof(char)); 
 	for (j = 0; j < length; j++) { 
