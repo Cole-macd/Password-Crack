@@ -9,7 +9,7 @@
 #define MAX_LENGTH 5
 #define NUM_VALID_CHARS 62
 //#define FILENAME "md5_hashes.txt"
-#define FILENAME "sha1_hashes2.txt"
+#define FILENAME "sha1_hashes.txt"
 //#define FILENAME "aes256_hashes.txt"
 //#define HASH_LENGTH 32
 #define HASH_LENGTH 40
