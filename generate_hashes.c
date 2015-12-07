@@ -1,20 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "encrypt_decrypt.h"
-
-#define SHA1_HASH_SIZE 20
-#define MD5_HASH_SIZE 16
-#define NUM_OF_PASSWORDS 50
-
-char *passwords[NUM_OF_PASSWORDS];
-void encrypt_md5();
-void encrypt_sha1();
-void encrypt_aes_256(char *plaintext);
+#include "generate_hashes.h"
 
 int main (int argc, char *argv[]) {
 
-    FILE *f = fopen("password.txt", "r");
+    FILE *f = fopen("passwords.txt", "r");
 
     if (f == NULL) {
         printf("Error opening file!\n");
@@ -23,76 +11,68 @@ int main (int argc, char *argv[]) {
 
     char line[256];
     int lineCount = 0; 
+    passwords = malloc(NUM_OF_PASSWORDS*sizeof(char*));
+    int j;
+    for (j = 0; j < NUM_OF_PASSWORDS; j++) {
+	passwords[j] = (char*)malloc(MAX_PW_LENGTH * sizeof(char));
+    }
 
     while (fgets(line, sizeof(line), f)) {
-	passwords[lineCount] = malloc(strlen(line));
 	strcpy(passwords[lineCount], line);
+	passwords[lineCount][strlen(passwords[lineCount])-1] = '\0';
 	lineCount++; 
     }
    
-    encrypt_md5(); 
-    encrypt_sha1();
-    encrypt_aes_256("testing"); 
- 
+    md5ToText();
+    sha1ToText();
+    aes256ToText();
+
     fclose(f);
-}
-
-void encrypt_md5() {
-    FILE *f_md5 = fopen("md5_pw.txt", "w");
-    int i,j;
-    char* encrypted; 
-    for (i = 0; i < NUM_OF_PASSWORDS; i++) {
-	//md5 produces a 16 byte hash value (one way)
- 	unsigned char hash[MD5_HASH_SIZE];
- 	memset(hash, 0, sizeof(hash));
-  	encrypt_digest(passwords[i], strlen(passwords[i]), hash, 0, EVP_md5());
-  	char buffer[256];
-  	memset(buffer, 0, sizeof(buffer));
-  	for(j = 0; j < MD5_HASH_SIZE; j++){
-   	     sprintf(buffer+2*j, "%02x", hash[j]);
-  	}
-	fprintf(f_md5, "%s\n", buffer); 
-     }
-    fclose(f_md5);
+    return 1;
 }
 
 
-void encrypt_sha1() {
-    FILE *f_sha1 = fopen("sha1_pw.txt", "w");
-    int i,j;
-    char* encrypted; 
-    for (i = 0; i < NUM_OF_PASSWORDS; i++) {
- 	// SHA1 gives a 20 byte hash
-	unsigned char hash[SHA1_HASH_SIZE]; 
-	memset(hash, 0, sizeof(hash));
-	encrypt_digest(passwords[i], strlen(passwords[i]), hash, 0, EVP_sha1());
-	char buffer[256];
-	memset(buffer, 0, sizeof(buffer));
-	for(j= 0; j < SHA1_HASH_SIZE; j++){
-	    sprintf(buffer+2*j, "%02x", hash[j]);
-	}
-	fprintf(f_sha1, "%s\n", buffer); 
+void md5ToText() {
+    FILE *f_md5 = fopen("md5_hashes.txt", "w");
+    int i;
+    char* md5_encr = (char*) malloc(sizeof(char)*MD5_HASH_SIZE*2+1);
+
+    for (i = 0; i < NUM_OF_PASSWORDS; i++) {    
+	encryptMd5(passwords[i], md5_encr, strlen(passwords[i])); 
+	fprintf(f_md5, "%s\n", md5_encr); 
     }
+   fclose(f_md5);
+   free(md5_encr);
+}
+
+void sha1ToText() {
+    FILE *f_sha1 = fopen("sha1_hashes.txt", "w");
+    int i;
+    char* sha1_encr = (char*) malloc(sizeof(char)*SHA1_HASH_SIZE*2+1);
+
+    for (i = 0; i < NUM_OF_PASSWORDS; i++) {
+    	encryptSha1(passwords[i], sha1_encr, strlen(passwords[i])); 
+	fprintf(f_sha1, "%s\n", sha1_encr); 
+    }
+
     fclose(f_sha1); 
-}
-
-void encrypt_aes_256(char *plaintext) {
-  FILE *f_aes256 = fopen("aes_256_pw.txt", "w");
-  unsigned char *key = (unsigned char *)"01234567890123456789012345678901";	/* 256 bit key */
-  unsigned char *iv = (unsigned char *)"01234567890123456";			/* A 128 bit IV  = Initialization vector*/
-  //unsigned char *plaintext = (unsigned char *)"BOOBIES";	 		/* Message to be encrypted */
-  unsigned char ciphertext[128];						/* Buffer for ciphertext, make sure buffer is long enough for ciphertext*/
-  unsigned char decryptedtext[128];						/* Buffer for the decrypted text */
-
-  int decryptedtext_len, ciphertext_len;
-   
-  ciphertext_len = encrypt_cipher(plaintext, strlen((char *)plaintext), key, iv, ciphertext, EVP_aes_256_cbc());	/* Encrypt the plaintext */
-  ciphertext[ciphertext_len] = '\0';
-  fprintf(f_aes256,"Cipher text: %s\n", ciphertext);
-
-  decryptedtext_len = decrypt_cipher(ciphertext, ciphertext_len, key, iv, decryptedtext, EVP_aes_256_cbc());		/* Decrypt the ciphertext */
-  decryptedtext[decryptedtext_len] = '\0';					/* Add a NULL terminator. We are expecting printable text */
-  fprintf(f_aes256, "Decrypted text: %s\n", decryptedtext);
-
+    free(sha1_encr);
 
 }
+
+void aes256ToText() {
+    FILE *f_aes256 = fopen("aes256_hashes.txt", "w");
+    int i;
+    char* aes256_encr = (char*) malloc(sizeof(char)*AES256_HASH_SIZE*2+1);
+    
+    for (i = 0; i < NUM_OF_PASSWORDS; i++) {
+    	encryptAes256(passwords[i], aes256_encr, strlen(passwords[i])); 
+	fprintf(f_aes256, "%s\n", aes256_encr); 
+    }
+    printf("finished!\n"); 
+    fclose(f_aes256);
+    free(aes256_encr);
+
+}
+
+
