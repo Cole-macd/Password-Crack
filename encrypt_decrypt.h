@@ -5,10 +5,7 @@
 #include <openssl/evp.h>
 #include <openssl/err.h>
 
-// Pass an enum or flag to indicate which algorithm should be used for encryption
-// Make sure to check key size and initialization vector
-
-// All Possible encryption algorithms in the library
+// All Possible encryption algorithms in the library, not all used for the project
 // MD algorithms
 const EVP_MD *EVP_md_null(void);
 const EVP_MD *EVP_md2(void);

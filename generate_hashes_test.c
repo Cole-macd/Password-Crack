@@ -4,46 +4,42 @@
 #define SHA1_HASH_SIZE 20
 #define MD5_HASH_SIZE 16
 
-//For block ciphers, the input size is the output size
-//BUT the input size must be a multiple of the blocks (or padding is needed)
-//Block size for AES is 128 bits (16 bytes), but the key size can be 128, 192 or 256 bits
-//Looks likes EVP takes care of this padding though
 void test_aes_256_cbc(void){
-  /* A 256 bit key */
+  // A 256 bit key taken from the example in the openssl wiki, cited in the report
   unsigned char *key = (unsigned char *)"01234567890123456789012345678901";
 
-  /* A 128 bit IV  = Initialization vector */
+  // A 128 bit initialization vector, also taken from the openssl wiki
   unsigned char *iv = (unsigned char *)"01234567890123456";
 
-  /* Message to be encrypted */
+  // Message to be encrypted 
   unsigned char *plaintext = (unsigned char *)"Testing this sentence";
 
-  /* Buffer for ciphertext. Ensure the buffer is long enough for the
-   * ciphertext which may be longer than the plaintext, dependant on the
-   * algorithm and mode
-   */
+  // Buffer for ciphertext. 
   unsigned char ciphertext[128];
 
-  /* Buffer for the decrypted text */
+  // Buffer for the decrypted text 
   unsigned char decryptedtext[128];
 
   int decryptedtext_len, ciphertext_len;
-   /* Encrypt the plaintext */
+  
+  // Encrypt the plaintext 
   ciphertext_len = encrypt_cipher(plaintext, strlen((char *)plaintext), key, iv, ciphertext, EVP_aes_256_cbc());
 
-   /* Do something useful with the ciphertext here */
   printf("Ciphertext is:\n");
-  
-  //BIO_dump_fp (stdout, (const char *)ciphertext, ciphertext_len);
+  int i;
+  for(i = 0; i < ciphertext_len; i++){
+    printf("%02x", ciphertext[2*i]);
+  }
+  printf("\n");
 
-  /* Decrypt the ciphertext */
+  // Decrypt the ciphertext 
   decryptedtext_len = decrypt_cipher(ciphertext, ciphertext_len, key, iv,
     decryptedtext, EVP_aes_256_cbc());
-
-  /* Add a NULL terminator. We are expecting printable text */
+  
+  // Add a NULL terminator. We are expecting printable text
   decryptedtext[decryptedtext_len] = '\0';
 
-  /* Show the decrypted text */
+  // Show the decrypted text 
   printf("Decrypted text is:\n");
   printf("%s\n", decryptedtext);
 
@@ -52,7 +48,7 @@ void test_aes_256_cbc(void){
   }
 }
 
-// Returns a string representing the command line output froming running "cmd"
+// Helper method: Returns a string representing the command line output froming running "cmd"
 char* get_command_output(char* cmd, int max_output) {
     char* data = malloc(sizeof(char)*max_output);
     memset(data, 0, sizeof(data));
@@ -71,10 +67,12 @@ char* get_command_output(char* cmd, int max_output) {
 
 void test_md5(void){
   char plaintext[]= "Hello world";
-  //md5 produces a 16 byte hash value (one way)
+  
+  // MD5 produces a 16 byte hash value (one way)
   unsigned char hash[MD5_HASH_SIZE]; 
   memset(hash, 0, sizeof(hash));
   encrypt_digest(plaintext, strlen(plaintext), hash, 0, EVP_md5());
+  
   // Below output should be the same as echo -n "Hello world" | openssl md5
   char buffer[256];
   memset(buffer, 0, sizeof(buffer));
@@ -84,7 +82,9 @@ void test_md5(void){
     sprintf(buffer+9+2*i, "%02x", hash[i]);
   }
   sprintf(buffer+9+2*i, "\n");
+  
   char *linux_call = get_command_output("echo -n \"Hello world\" | openssl md5 2>&1", 256);
+
   if(strcmp(linux_call, buffer) == 0){
     printf(" MD5 PASSED\n");
   }
@@ -92,11 +92,15 @@ void test_md5(void){
 
 
 void test_sha_1(void){
+  
   char plaintext[]= "Hello world";
+  
   // SHA1 gives a 20 byte hash
   unsigned char hash[SHA1_HASH_SIZE]; 
   memset(hash, 0, sizeof(hash));
+  
   encrypt_digest(plaintext, strlen(plaintext), hash, 0, EVP_sha1());
+  
   char buffer[256];
   memset(buffer, 0, sizeof(buffer));
   sprintf(buffer, "(stdin)= ");
@@ -105,7 +109,9 @@ void test_sha_1(void){
     sprintf(buffer+9+2*i, "%02x", hash[i]);
   }
   sprintf(buffer+9+2*i, "\n");
+  
   char *linux_call = get_command_output("echo -n \"Hello world\" | openssl sha1 2>&1", 256);
+  
   if(strcmp(linux_call, buffer) == 0){
     printf(" SHA1 PASSED\n");
   }
@@ -114,21 +120,18 @@ void test_sha_1(void){
 
 int main(void){
 	
-	
-  /* Initialise the library */
+  // Initialise the library 
   ERR_load_crypto_strings();
   OpenSSL_add_all_algorithms();
   OpenSSL_add_all_digests();
   OPENSSL_config(NULL);
 
   // Test algorithms
-  // Digest algorithm --> generates a hashcode but cannot be decrypted
-  // Cipher algorithm --> generates encrypted text using a key and then decrypt the encrypted text
-  // with the same key
   test_aes_256_cbc();
   test_md5();
   test_sha_1();
-  /* Clean up */
+
+  // Clean up 
   EVP_cleanup();
   ERR_free_strings();
 
