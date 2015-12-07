@@ -26,23 +26,23 @@ int encrypt_cipher(unsigned char *plaintext, int plaintext_len, unsigned char *k
   int ciphertext_len;
   
     EVP_CIPHER_CTX *ctx;
-    /* Create and initialise the context */
+    // Create and initialise the context 
     if(!(ctx = EVP_CIPHER_CTX_new())) handleErrors();
 
     // Initialise the encryption operation.
     if(1 != EVP_EncryptInit_ex(ctx, cipher_encryption_algorithm, NULL, key, iv))
       handleErrors();
     
-    //Provide the message to be encrypted, and obtain the encrypted output.
+    // Provide the message to be encrypted, and obtain the encrypted output.
     if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
       handleErrors();
     ciphertext_len = len;
 
-    //Finalize Encryption
+    // Finalize Encryption
     if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)) handleErrors();
     ciphertext_len += len;
 
-    /* Clean up */
+    // Clean up 
     EVP_CIPHER_CTX_free(ctx);
 
   return ciphertext_len;
