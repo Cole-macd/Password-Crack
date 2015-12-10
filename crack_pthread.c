@@ -25,6 +25,7 @@ int getNumberOfPasswords(char *filename);
 void allocatePasswordList(int length);
 void writeToFile();
 
+// Shared variables between pthreads
 int num_processes, number_of_passwords;
 int global_current_password;
 pthread_rwlock_t password_lock;
@@ -32,9 +33,13 @@ pthread_rwlock_t password_lock;
 char **found_passwords;
 char valid_chars[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+/* Worker method for each pthread, runs brute force on a cyclic pattern
+ * of passwords based on process rank
+ */ 
 void *worker(void *arg) {
     	int rank = (int) arg;
 
+	// Setup local pthread variables
     	int current_password_index;
     	int copy_global_current_password;
     	int found_match;
@@ -98,7 +103,8 @@ void *worker(void *arg) {
 	
 	                	incrementValues(current_values, current_length);
 	            	}
-	
+
+			// Free the attempted string, if match is found then break
 	            	free(attempted_string);
 	
 	            	if (found_match == 1) {
@@ -114,12 +120,14 @@ int main(int argc, char *argv[]) {
 	struct timeval tvBegin, tvEnd, tvDiff;
 	gettimeofday(&tvBegin, NULL);
 
+	// Setup number of passwords and allocate list for results
         number_of_passwords = getNumberOfPasswords(FILENAME);
     	printf("number of passwords is %d\n", number_of_passwords);
    	
 	allocatePasswordList(number_of_passwords);
 	global_current_password = 0;
 
+	// Get thread count from program arguments, create and join threads
     	num_processes = atoi(argv[1]);
         pthread_t *threads = malloc(num_processes * sizeof(pthread_t));
 
@@ -146,6 +154,7 @@ int main(int argc, char *argv[]) {
         	}
     	}
 
+	// Destroy the lock, write the found passwords to file, and print out time results
     	pthread_rwlock_destroy(&password_lock);
     	writeToFile();
 

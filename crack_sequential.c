@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
 	struct timeval tvBegin, tvEnd, tvDiff;
 	gettimeofday(&tvBegin, NULL);
 
+	// Setup needed variables
 	number_of_passwords = getNumberOfPasswords(FILENAME);
 	int current_password_index;
 	int found_match;
@@ -92,15 +93,15 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	// Write to file and print out time taken
 	writeToFile();
 	freeFoundPasswords(number_of_passwords);
-	printf("getting time of day\n");
 	gettimeofday(&tvEnd, NULL);
-	printf("subtracting times\n");
 	timevalSubtract(&tvDiff, &tvEnd, &tvBegin);
 	printf("Time elapsed is %ld.%06ld\n", tvDiff.tv_sec, tvDiff.tv_usec);
 }
 
+/* Free the array of found passwords */
 void freeFoundPasswords(int length) {
 	int i;
 	for (i = 0; i < length; i++) {
