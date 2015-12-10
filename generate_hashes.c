@@ -16,7 +16,7 @@ int main (int argc, char *argv[]) {
     for (j = 0; j < NUM_OF_PASSWORDS; j++) {
 	passwords[j] = (char*)malloc(MAX_PW_LENGTH * sizeof(char));
     }
-
+    // reads password text file and stores in in password array
     while (fgets(line, sizeof(line), f)) {
 	strcpy(passwords[lineCount], line);
 	passwords[lineCount][strlen(passwords[lineCount])-1] = '\0';
@@ -31,7 +31,7 @@ int main (int argc, char *argv[]) {
     return 1;
 }
 
-
+//prints md5 encrypted values to a text file 
 void md5ToText() {
     FILE *f_md5 = fopen("md5_hashes.txt", "w");
     int i;
@@ -45,6 +45,7 @@ void md5ToText() {
    free(md5_encr);
 }
 
+//prints sha1 encrypted values to a text file 
 void sha1ToText() {
     FILE *f_sha1 = fopen("sha1_hashes.txt", "w");
     int i;
@@ -60,6 +61,7 @@ void sha1ToText() {
 
 }
 
+//prints aes256 encrypted values to a text file 
 void aes256ToText() {
     FILE *f_aes256 = fopen("aes256_hashes.txt", "w");
     int i;

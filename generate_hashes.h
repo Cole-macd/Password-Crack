@@ -14,10 +14,6 @@
 #define MAX_PW_LENGTH 6
 
 char **passwords;
-//unsigned char md5_hash[MD5_HASH_SIZE];
-//unsigned char sha1_hash[SHA1_HASH_SIZE]; 
-//char buffer[256];
-
 void md5ToText();
 void sha1ToText();
 void aes256ToText();
